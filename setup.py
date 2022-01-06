@@ -24,7 +24,7 @@ def _package_tree(pkgroot):
     path = op.dirname(__file__)
     subdirs = [op.relpath(i[0], path).replace(op.sep, '.')
                for i in os.walk(op.join(path, pkgroot))
-               if '__init__.py' in i[2]]
+               if '__init__.py' in i[2] or 'pykilosort/cuda' in i[0]]
     return subdirs
 
 
