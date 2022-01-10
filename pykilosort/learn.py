@@ -880,7 +880,7 @@ def learnAndSolve8b(ctx, sanity_plots=False, plot_widgets=None, plot_pos=None):
             Nnearest,
             Nrank,
             params.lam,
-            pmi[0],
+            pmi[0].get(),
             Nchan,
             NchanNear,
             params.nt0min,
