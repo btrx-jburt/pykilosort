@@ -385,13 +385,10 @@ def preprocess(ctx):
             datr = cp.dot(datr, Wrot)  # whiten the data and scale by 200 for int16 range
             assert datr.flags.c_contiguous
 
-            # TODO (Josh): assert that datr dtype is now a float
-
             # convert to int16, and gather on the CPU side
             # WARNING: transpose because "tofile" always writes in C order, whereas we want
             # to write in F order.
-            datcpu = cp.asnumpy((datr / params.scaleproc).T.astype(np.int16))
+            datcpu = cp.asnumpy(datr.T.astype(np.int16))
 
             # write this batch to binary file
             datcpu.tofile(fw)
-
