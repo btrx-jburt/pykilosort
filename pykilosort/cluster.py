@@ -573,6 +573,10 @@ def clusterSingleBatches(ctx, sanity_plots=False, plot_widgets=None, plot_pos=0)
     ccb0 = zscore(ccb, axis=0)
     ccb0 = ccb0 + ccb0.T
 
+    # Needed to avoid division by zero in my environment
+    # (better way would probably be to use `where` kwarg in cp.divide function)
+    ccb0[cp.isnan(ccb0)] = 0
+
     # sort by manifold embedding algorithm
     # iorig is the sorting of the batches
     # ccbsort is the resorted matrix (useful for diagnosing drift)
