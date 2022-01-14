@@ -42,14 +42,17 @@ def run(
 
     """
 
+    # This may not be strictly true but after preprocessing the data are cast
+    # to np.int16 and this WILL give an incorrect result if your dtype is
+    # unsigned
+    assert dtype in kwargs and dtype == np.int16
+
     # Get or create the probe object.
     if isinstance(probe, (str, Path)):
         probe = load_probe(probe)
 
     raw_data = get_ephys_reader(dat_path, **kwargs)
     assert raw_data.ndim == 2
-
-    # Not convinced it will work for any other dtype
     assert raw_data.dtype == np.int16
 
     # Now, the initial raw data must be in C order, it will be converted to Fortran order
@@ -77,9 +80,12 @@ def run(
 
     # Create the context.
     ctx_path = dir_path / ".kilosort" / raw_data.name
-    if clear_context:
+    if clear_context and ctx_path.exists():
         logger.info(f"Clearing context at {ctx_path} ...")
-        shutil.rmtree(ctx_path, ignore_errors=True)
+        shutil.rmtree(ctx_path)
+        # add this while-loop to ensure context is cleared before progressing
+        while ctx_path.exists():  # check if it exists
+            pass
 
     ctx = Context(ctx_path)
     ctx.params = params
