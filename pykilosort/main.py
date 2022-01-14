@@ -45,7 +45,7 @@ def run(
     # This may not be strictly true but after preprocessing the data are cast
     # to np.int16 and this WILL give an incorrect result if your dtype is
     # unsigned
-    assert dtype in kwargs and dtype == np.int16
+    assert 'dtype' in kwargs and kwargs['dtype'] == np.int16
 
     # Get or create the probe object.
     if isinstance(probe, (str, Path)):
