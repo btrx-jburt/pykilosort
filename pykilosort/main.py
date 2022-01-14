@@ -49,6 +49,9 @@ def run(
     raw_data = get_ephys_reader(dat_path, **kwargs)
     assert raw_data.ndim == 2
 
+    # Not convinced it will work for any other dtype
+    assert raw_data.dtype == np.int16
+
     # Now, the initial raw data must be in C order, it will be converted to Fortran order
     # in the proc file step, so as to use the existing CUDA kernels from MATLAB.
     assert raw_data.shape[0] > raw_data.shape[1]  # nsamples > nchannels
