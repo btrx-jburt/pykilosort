@@ -427,7 +427,8 @@ def find_merges(ctx, flag):
             K, Qi, Q00, Q01, rir = ccg(s1, s2, nbins, dt)
             # normalize the central cross-correlogram bin by its shoulders OR
             # by its mean firing rate
-            Q = (Qi / max(Q00, Q01)).min()
+            norm = max(Q00, Q01) or 1 # avoids division by zero
+            Q = (Qi / norm).min()
             # R is the estimated probability that any of the center bins are refractory,
             # and kicks in when there are very few spikes
             R = rir.min()
@@ -629,6 +630,8 @@ def splitAllClusters(ctx, flag):
         # compute the cross-correlogram between spikes in the putative new clusters
         ilow_cpu = cp.asnumpy(ilow)
         K, Qi, Q00, Q01, rir = ccg(ss[ilow_cpu], ss[~ilow_cpu], 500, dt)
+        # this may or may not be needed in future; leaving here just incase
+        # norm = max(Q00, Q01) or 1
         Q12 = (Qi / max(Q00, Q01)).min()  # refractoriness metric 1
         R = rir.min()  # refractoriness metric 2
 
