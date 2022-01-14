@@ -434,7 +434,8 @@ def clusterSingleBatches(ctx, sanity_plots=False, plot_widgets=None, plot_pos=0)
     Nbatch = ctx.intermediate.Nbatch
     params = ctx.params
     probe = ctx.probe
-    raw_data = ctx.raw_data
+    # I don't think this gets used anywhere...
+    # raw_data = ctx.raw_data 
     ir = ctx.intermediate
     proc = ir.proc
 
