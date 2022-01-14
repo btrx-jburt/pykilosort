@@ -485,7 +485,7 @@ def splitAllClusters(ctx, flag):
     # Take intermediate arrays from context.
     st3 = cp.asnumpy(ir.st3_m)
     cProjPC = ir.cProjPC
-    dWU = ir.dWU
+    # dWU = ir.dWU
 
     # For the following arrays that will be overwritten by this function, try to get
     # it from a previous call to this function (as it is called twice), otherwise
@@ -494,6 +494,7 @@ def splitAllClusters(ctx, flag):
     simScore = ir.get('simScore_s', ir.simScore)
     iNeigh = ir.get('iNeigh_s', ir.iNeigh)
     iNeighPC = ir.get('iNeighPC_s', ir.iNeighPC)
+    dWU = ir.get('dWU_s', ir.dWU)
 
     # this is the threshold for splits, and is one of the main parameters users can change
     ccsplit = params.AUCsplit
@@ -776,7 +777,7 @@ def splitAllClusters(ctx, flag):
         simScore_s=simScore,
         iNeigh_s=iNeigh,
         iNeighPC_s=iNeighPC,
-
+        dWU_s=dWU,
         Wphy=Wphy,
         iList=iList,
         isplit=isplit,
